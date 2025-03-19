@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="assets/images/logo.ico">
+    <link rel="stylesheet" href="styles.css">
+    <!-- Importa jsPDF e html2canvas -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <title>Formulário de acesso de usuário</title>
+</head>
+<body>
+    <div class="container-form">
+        <h2>Forneça as informações do usuário</h2>
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" required>
+        
+        <label for="login">Windows Login:</label>
+        <input type="text" id="login" required>
+        
+        <label for="dominio">Dominio do E-mail</label>
+        <select name="dominio" id="dominio">
+            <option value="@sfiems.com.br">@sfiems.com.br</option>
+            <option value="@sesims.com.br">@sesims.com.br</option>
+            <option value="@ms.senai.br">@ms.senai.br</option>
+            <option value="@ielms.com.br">@ielms.com.br</option>
+        </select>    
+
+        <label for="senha">Senha Inicial:</label>
+        <input type="text" id="senha" required>
+        
+        <label for="senha_impressao">Senha de Impressão:</label>
+        <input type="text" id="senha_impressao" required>
+
+        <label for="emailDestino">E-mail de destinatario</label>
+        <input type="email" id="emailDestino" required>
+        
+        <button onclick="gerarPDF()">Gerar PDF</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
