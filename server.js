@@ -40,7 +40,7 @@ app.post("/enviar-email", upload.single("pdfFile"), (req, res) => {
     const pdfPath = req.file.path;
 
     const mailOptions = {
-        from: "erick.prado@sfiems.com.br",
+        from: "EMAIL",
         to: emailDestino,
         subject: "Criação de Novo Usuário",
         text: "A criação do novo usuário foi concluída com sucesso. As informações de acesso estão em anexo para consulta.",
