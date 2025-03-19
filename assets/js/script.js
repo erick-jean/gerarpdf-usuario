@@ -3,7 +3,7 @@ function gerarPDF() {
     const doc = new jsPDF("p", "mm", "a4"); // Formato A4 em modo retrato
 
     // Caminho da imagem de fundo (certifique-se de que a imagem esteja acessível)
-    const imgPath = "Imagem2.png"; // Substitua pelo caminho correto da imagem
+    const imgPath = "assets/images/Imagem2.png"; // Substitua pelo caminho correto da imagem
 
     // Definir a largura e altura do A4 em milímetros
     const pageWidth = 210;
