@@ -31,8 +31,13 @@ function gerarPDF() {
         const nome = document.getElementById("nome").value || "Não informado";
         const login = document.getElementById("login").value || "Não informado";
         const dominio = document.getElementById("dominio").value || "@exemplo.com";
-        const senha = document.getElementById("senha").value || "********";
-        const senhaImpressao = document.getElementById("senha_impressao").value || "Não disponível";
+        const senha = document.getElementById("senha").value || "Não informado";
+        const senhaImpressao = document.getElementById("senha_impressao").value || "Não informado";
+
+        if (nome, login, senha, senhaImpressao === "Não informado") {
+            alert("Por favor, preencha os campos obrigatórios.");
+            return;
+        }
 
         // Adicionar dados do usuário formatados
         const dadosUsuario = [
