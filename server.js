@@ -28,8 +28,8 @@ const transporter = nodemailer.createTransport({
     port: 587,
     secure: false, // O Outlook usa TLS e não SSL
     auth: {
-        user: "erick.prado@sfiems.com.br", // Seu e-mail do Outlook
-        pass: "!out@2024!" // Senha do e-mail (ou senha de app)
+        user: "EMAIL", // Seu e-mail do Outlook
+        pass: "senha" // Senha do e-mail (ou senha de app)
     }
 });
 
