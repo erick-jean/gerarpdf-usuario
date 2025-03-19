@@ -34,7 +34,7 @@ function gerarPDF() {
         const senha = document.getElementById("senha").value || "Não informado";
         const senhaImpressao = document.getElementById("senha_impressao").value || "Não informado";
 
-        if (nome, login, senha, senhaImpressao === "Não informado") {
+        if (nome, login, senha === "Não informado") {
             alert("Por favor, preencha os campos obrigatórios.");
             return;
         }
@@ -77,17 +77,17 @@ function gerarPDF() {
             "   - Atenção: A alteração da senha é obrigatória para garantir a segurança da sua conta.",
             "",
             "• Requisitos de Complexidade da Senha:",
-            "  - Comprimento mínimo: 6 caracteres.",
-            "  - Não conter o nome da conta do usuário ou partes do nome completo do usuário que excedam dois caracteres consecutivos.",
-            "  - Conter caracteres de três das quatro categorias a seguir:",
-            "     * Caracteres maiúsculos (A a Z);",
-            "     * Caracteres minúsculos (a a z);",
-            "     * Base 10 dígitos (0 a 9);",
-            "     * Caracteres não alfabéticos (exemplo: @, !, $, #, %).",
+            "  - A nova senha deve atender aos seguintes critérios de complexidade:",
+                "  - Comprimento mínimo: 6 caracteres.",
+                "  - Não conter o nome da conta do usuário ou partes do nome completo do usuário que excedam dois caracteres consecutivos.",
+                "  - Conter caracteres de três das quatro categorias a seguir:",
+                "     * Caracteres maiúsculos (A a Z);",
+                "     * Caracteres minúsculos (a a z);",
+                "     * Base 10 dígitos (0 a 9);",
+                "     * Caracteres não alfabéticos (exemplo: @, !, $, #, %).",
             "",
-            "• Central de Atendimento de TI:",
-            "  - Acesse o site sd.sfiems.org.br e informe seu login do CA e senha.",
-            "  - Em caso de dúvidas, o time de TI está à disposição pelo telefone (67) 3389-9066."
+            "• Acesso à Central de Atendimento de TI (CA):",
+            "  - Para acessar a Central de Atendimento de TI (CA) acesse o site sd.sfiems.org.br e informe seu login do CA e senha.Em caso de dúvidas, o time de TI está à disposição pelo telefone (67) 3389-9066"
         ];
 
         // Ajustar quebras de linha para melhor visualização
