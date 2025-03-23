@@ -1,68 +1,73 @@
+require("dotenv").config();
 const express = require("express");
+const session = require("express-session");
+const passport = require("./auth"); // Arquivo de configuração do Passport/Azure AD
 const path = require("path");
-const nodemailer = require("nodemailer");
-const multer = require("multer");
-const fs = require("fs");
 const cors = require("cors");
+const logger = require("./logger");
+
+// Rotas
+const authRoutes = require("./routes/authRoutes");
+const emailRoutes = require("./routes/emailRoutes");
+const logRoutes = require("./routes/logRoutes");
+const indexRoutes = require("./routes/indexRoutes");
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
+const isProduction = process.env.NODE_ENV === "production";
 
-// Permitir requisições do frontend
-app.use(cors());
+// 1. Configuração de sessão
+app.use(session({
+    secret: process.env.SESSION_SECRET || "chave-secreta", // Melhor usar uma variável de ambiente
+    resave: false,
+    saveUninitialized: false,
+    cookie: { 
+        secure: isProduction,  // Apenas ativar em produção
+        httpOnly: true,        // Protege contra ataques XSS
+        sameSite: "strict"     // Protege contra CSRF
+    }
+}));
 
-// Configuração do Multer para armazenar arquivos temporariamente
-const upload = multer({ dest: "uploads/" });
+// 2. Inicialização do Passport (Azure AD)
+app.use(passport.initialize());
+app.use(passport.session());
 
-// Servir arquivos estáticos da pasta "public"
-app.use(express.static(path.join(__dirname, "public")));
+// 3. Configuração de CORS
+app.use(cors({
+    origin: isProduction ? "https://hmpdfusers.fiems.com.br" : "http://localhost:3000",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"]
+}));
 
-// Rota principal
-app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "index.html"));
+// 4. Permite receber JSON e form-urlencoded
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// 5. Middleware para servir arquivos estáticos
+app.use("/static", express.static(path.join(__dirname, "public")));
+
+// 6. Uso das rotas separadas
+app.use("/auth", authRoutes);       
+app.use("/api", emailRoutes);       
+app.use("/log", logRoutes);         
+app.use("/", indexRoutes);
+
+// 7. Rota 404 (caso nenhuma rota acima atenda)
+app.use((req, res) => {
+    res.status(404).json({ message: "Rota não encontrada" });
 });
 
-// Configurar o transporte SMTP para envio de e-mails
-const transporter = nodemailer.createTransport({
-    host: "smtp.office365.com",
-    port: 587,
-    secure: false, // O Outlook usa TLS e não SSL
-    auth: {
-        user: "EMAIL", // Seu e-mail do Outlook
-        pass: "senha" // Senha do e-mail (ou senha de app)
+// 8. Middleware global de tratamento de erros
+app.use((err, req, res, next) => {
+    logger.error(`❌ Erro: ${err.message}`);
+    if (!isProduction) {
+        res.status(500).json({ message: "Algo deu errado!", error: err.stack });
+    } else {
+        res.status(500).json({ message: "Algo deu errado!" });
     }
 });
 
-
-// Rota para receber o PDF e enviar por e-mail
-app.post("/enviar-email", upload.single("pdfFile"), (req, res) => {
-    const { emailDestino } = req.body;
-    const pdfPath = req.file.path;
-
-    const mailOptions = {
-        from: "EMAIL",
-        to: emailDestino,
-        subject: "Criação de Novo Usuário",
-        text: "A criação do novo usuário foi concluída com sucesso. As informações de acesso estão em anexo para consulta.",
-        attachments: [
-            {
-                filename: "Login e Senha Novo Colaborador.pdf",
-                path: pdfPath
-            }
-        ]
-    };
-
-    transporter.sendMail(mailOptions, (error, info) => {
-        fs.unlinkSync(pdfPath); // Remove o arquivo após envio
-        if (error) {
-            console.log(error);
-            return res.status(500).json({ message: "Erro ao enviar e-mail." });
-        }
-        res.status(200).json({ message: "E-mail enviado com sucesso!" });
-    });
-});
-
-// Iniciar o servidor
-app.listen(PORT, () => {
-    console.log(`Servidor rodando em http://localhost:${PORT}`);
+// 9. Inicia o servidor
+app.listen(PORT, "0.0.0.0", () => {
+    logger.info(`🚀 Servidor rodando em http://localhost:${PORT}`);
 });

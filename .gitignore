@@ -1,0 +1,12 @@
+# Ignorar pastas do Node.js
+node_modules/
+
+# Ignorar arquivos de log
+*.log
+
+# Ignorar credenciais do ambiente
+.env
+
+# Ignorar arquivos compilados
+/dist/
+/build/
