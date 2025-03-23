@@ -10,3 +10,31 @@ node_modules/
 # Ignorar arquivos compilados
 /dist/
 /build/
+
+# Ignorar arquivos de configuração
+*.config.js
+
+# Ignorar arquivos de dependências
+package-lock.json
+
+# Ignorar arquivos de cache
+.cache/
+
+# Ignorar arquivos de build
+.DS_Store
+*/.DS_Store
+
+# Ignorar arquivos de backup
+*.bak
+
+# Ignorar arquivos de teste
+*.test.js
+
+# Ignorar arquivos de documentação
+*.md
+
+# Ignorar azure-pipelines.yml
+azure-pipelines.yml
+
+# Ignorar Dockerfile
+Dockerfile
