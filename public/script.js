@@ -56,7 +56,7 @@ function enviarLog(level, message) {
  
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF("p", "mm", "a4", true); // Formato A4 em modo retrato
-    const imgPath = "/static/assets/images/Imagem2.png"; // Caminho correto da imagem
+    const imgPath = "/assets/images/Imagem2.png"; // Caminho correto da imagem
  
     // Criar a imagem de fundo
     const img = new Image();
@@ -81,7 +81,7 @@ function enviarLog(level, message) {
     let posY = 50;
  
     // Adicionar imagem ao fundo
-    doc.addImage("/static/assets/images/Imagem2.png", "PNG", 0, 0, pageWidth, pageHeight);
+    doc.addImage("/assets/images/Imagem2.png", "PNG", 0, 0, pageWidth, pageHeight);
  
     // Adicionar título centralizado
     doc.setFont("helvetica", "bold");

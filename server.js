@@ -1,36 +1,36 @@
 require("dotenv").config();
 const express = require("express");
 const session = require("express-session");
-const passport = require("./auth"); // Arquivo de configuração do Passport/Azure AD
+//const passport = require("./auth"); // Arquivo de configuração do Passport/Azure AD
 const path = require("path");
 const cors = require("cors");
 const logger = require("./logger");
 
 // Rotas
-const authRoutes = require("./routes/authRoutes");
+//const authRoutes = require("./routes/authRoutes");
 const emailRoutes = require("./routes/emailRoutes");
 const logRoutes = require("./routes/logRoutes");
-const indexRoutes = require("./routes/indexRoutes");
+//const indexRoutes = require("./routes/indexRoutes");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 const isProduction = process.env.NODE_ENV === "production";
 
 // 1. Configuração de sessão
-app.use(session({
-    secret: process.env.SESSION_SECRET || "chave-secreta", // Melhor usar uma variável de ambiente
-    resave: false,
-    saveUninitialized: false,
-    cookie: { 
-        secure: isProduction,  // Apenas ativar em produção
-        httpOnly: true,        // Protege contra ataques XSS
-        sameSite: "strict"     // Protege contra CSRF
-    }
-}));
+// app.use(session({
+//     secret: process.env.SESSION_SECRET || "chave-secreta", // Melhor usar uma variável de ambiente
+//     resave: false,
+//     saveUninitialized: false,
+//     cookie: { 
+//         secure: isProduction,  // Apenas ativar em produção
+//         httpOnly: true,        // Protege contra ataques XSS
+//         sameSite: "strict"     // Protege contra CSRF
+//     }
+// }));
 
 // 2. Inicialização do Passport (Azure AD)
-app.use(passport.initialize());
-app.use(passport.session());
+//app.use(passport.initialize());
+//app.use(passport.session());
 
 // 3. Configuração de CORS
 app.use(cors({
@@ -43,14 +43,16 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// 5. Middleware para servir arquivos estáticos
-app.use("/static", express.static(path.join(__dirname, "public")));
+// // 5. Middleware para servir arquivos estáticos
+// app.use("/static", express.static(path.join(__dirname, "public")));
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 // 6. Uso das rotas separadas
-app.use("/auth", authRoutes);       
+//app.use("/auth", authRoutes);       
 app.use("/api", emailRoutes);       
 app.use("/log", logRoutes);         
-app.use("/", indexRoutes);
+//app.use("/", indexRoutes);
 
 // 7. Rota 404 (caso nenhuma rota acima atenda)
 app.use((req, res) => {
